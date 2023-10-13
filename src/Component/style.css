@@ -1,0 +1,510 @@
+
+#AllNone{
+    display: none;
+}
+#header{
+    height: 70px;
+    width: 100%;
+    background-color: rgb(27, 151, 253);
+    display: flex;
+    align-items: center;
+}
+#header h1{
+    margin-left: 4%;
+    color: white
+}
+#score_in_header{
+    display: none;
+}
+
+/* ---------- welcome Message ---------- Start page  ----------- */
+#Main_Welcome_only{
+    display: block;
+}
+#welcome_Msg-only{
+    display: flex;
+    width: 100%;
+    font-size: 40PX;
+    justify-content: center;
+    color:  rgb(255, 174, 0);
+}
+#welcome_Msg-only span{
+    display: flex;
+    color:  rgb(102, 147, 184);
+    justify-content: center;
+}
+#form-Container-None{
+    display: none;
+}
+#start_Container{
+    display: flex;
+    justify-content: center;
+
+}
+#start_Container button{
+    height: 80px;
+    width: 180px;
+    background-color:rgb(255, 174, 0);
+    box-shadow: 2px 3px 13px -3px rgba(75,75,75,0.75);
+    border-radius: 0.5rem;
+    font-family: 'Poppins';
+    font-weight: 600;
+    font-style: italic;
+    margin-top: 10px;
+    margin-left: 17px;
+    cursor: pointer;
+    border: none;
+    font-size: 30px;
+    color: white;
+    display: flex;
+justify-content: center;
+align-items: center;
+}
+#start_Container button:hover{
+    background-color:  rgb(252, 177, 17);
+    color:  rgb(102, 147, 184);
+    transition: all 0.5s;
+    font-size: 32px;
+}
+#score_Container-None{
+    display: none;
+}
+
+/* ---------- Main Container ------------------ */
+
+#Main{
+    margin-top: 4%;
+    display:flex;
+    width: 100%; 
+    justify-content: center;
+    transition: all 0.8s;
+
+}
+#start_Container-None{
+    display: none;
+}
+/* ------------welcome Message---------- */
+#welcome_Msg{
+    font-size: 100%;
+    color:  rgb(255, 174, 0);
+   width: 25%;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+#welcome_Msg span{
+    color:  rgb(102, 147, 184);
+    display: flex;
+    justify-content: center;
+}
+/* ----------------form Container-------------- */
+#form-Container{
+width: 70%;
+display: flex;
+justify-content: center;
+}
+
+/* ---------form -------------- */
+#myForm{
+    width: 70%;
+    height: 100%;
+    background-color: rgb(241, 241, 241);
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 12px 19px 19px -4px rgba(0,0,0,0.1);
+
+}
+#myForm h1{
+   
+display: flex;
+justify-content: center;
+color:  rgb(27, 151, 253);
+border-top-left-radius: 1rem;
+border-top-right-radius: 1rem;
+
+}
+
+#myForm #Question{
+    width: 78%;
+    border: none;
+    border-bottom: 1px solid rgb(53, 51, 51);
+    position: relative;
+    margin: auto;
+    font-family: 'Poppins';
+    font-weight: 600;
+    padding: 9px;
+    border-radius: 5px;
+    
+}
+#myForm #Question div,
+#myForm .Answer div
+{
+    display: inline-block;
+}
+#myForm .Answer{
+    width: 68%;
+    display: block;
+    position: relative;
+    margin: auto;
+    margin-top: 20px;
+    background-color: rgb(250, 250, 250);;
+    box-shadow: 3px 3px rgb(206, 206, 206);
+    color: rgb(0, 0, 0);
+    padding: 9px;
+    border-radius: 5px;
+    border: none;
+    /* border-bottom: 1px solid rgb(53, 51, 51); */
+    font-family: 'Poppins';
+    font-weight: 400;
+    cursor: pointer;
+}
+#submit_btn-container{
+    margin-top: 30px;
+    border: none;
+    display: flex; 
+justify-content: center;
+margin-bottom: 25px;
+}
+.submit_btn{
+    height: 40px;
+    width: 42%;
+    border: none;
+    padding: 9px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 174, 0);
+  font-family: 'Poppins';
+    font-weight: 500;
+    border-radius:10px;
+    font-size: 17px;
+    cursor: pointer;
+
+}
+.submit_btn:hover{
+    background-color:  rgb(252, 177, 17);
+    color:  rgb(102, 147, 184);
+    font-family: 'Poppins';
+    font-weight: 600;
+    transition: all 0.3s;
+
+}
+
+/* ------------score and next button Container------------ */
+#score_Container{
+   width: 25%;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+}
+#score_Container #score_Container_child{
+    display: block;
+}
+#score{
+    height: 80px;
+    width: 180px;
+    border-radius: 0.5rem;
+    background-color:rgb(255, 174, 0);
+    box-shadow: 2px 3px 13px -3px rgba(75,75,75,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins';
+    font-weight: 600;
+}
+#Next_Level_button{
+    display: none;
+} 
+
+/* --------------Validation Color Change---------------- */
+
+.BG_Green{
+    width: 68%;
+    display: flex;
+    position: relative;
+    margin: auto;
+    margin-top: 20px;
+    background-color: rgba(10, 207, 36, 0.993);
+    box-shadow: 3px 3px rgb(206, 206, 206);
+    color: white;
+    padding: 9px;
+    border-radius: 5px;
+    font-family: 'Poppins';
+    font-weight: 400;
+    cursor: pointer;
+}
+#myForm #BG_Red{
+    /* background-color: rgb(209, 24, 24); */
+    /* border: 2px solid rgb(179, 54, 54); */
+    /* background-color:  rgb(241, 241, 241); */
+    background-color: rgb(235, 19, 19);;
+    color: white;
+    width: 68%;
+    display: flex;
+    position: relative;
+    /* margin-left: 5px; */
+    margin: auto;
+    margin-top: 20px;
+    /* background-color: rgb(80, 253, 27); */
+    box-shadow: 3px 3px rgb(206, 206, 206);
+    padding: 9px;
+    border-radius: 5px;
+    /* border: none; */
+    /* border-bottom: 1px solid rgb(53, 51, 51); */
+    font-family: 'Poppins';
+    font-weight: 400;
+    cursor: pointer;
+}
+.Dull_Blue{
+    background-color: rgb(27, 151, 253);
+    width: 68%;
+    display: flex;
+    position: relative;
+    margin: auto;
+    margin-top: 20px;
+    box-shadow: 3px 3px rgb(206, 206, 206);
+    color: white;
+    padding: 9px;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Poppins';
+    font-weight: 400;
+    cursor: pointer;
+}
+#FinalScore{
+   display: none;
+}
+#FinalScoreOnly{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+#FinalScoreChildren{
+    height: 300px;
+    width: 400px;
+    background-color: rgb(236, 236, 236);
+    font-family: 'Poppins';
+    border-radius: 10px;
+    font-size: 40px;
+    font-weight: 600;
+    color:  rgb(27, 151, 253);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+@media (max-width: 1199px) {
+    #welcome_Msg{
+    font-size: 100%;
+    width: 20%;
+}
+
+    #form-Container{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+
+    }
+    #score_Container{
+        margin-top: 3%; 
+        width: 20%;
+       display: flex;
+       justify-content: flex-start;
+    }  
+
+     #score{
+         height: 70px;
+         width: 150px;
+     }
+     #Next_Level_button{
+
+         display: none;
+     
+     }
+}
+@media (max-width: 1024px) {
+
+            #Main{
+                display:block;
+                width: 100%; 
+                justify-content: center;
+            }
+
+            #header h1{
+                margin-left: 5%;
+                color: white;
+                font-size: 23px;
+            }
+            #score_in_header{
+
+                display: block;
+               width: 75%;
+               display: flex;
+               align-items: center;
+               justify-content: end;
+            }
+            .header_button{
+                float: right;
+            height: 50px;
+            width: 90px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: rgb(27, 151, 253);
+            font-family: 'Poppins';
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .header_button .header_button:nth-child(1){
+            background-color: none;
+            color: none;
+            display: flex;
+            justify-content: center;
+        }
+        #next_level{
+
+            display: none;
+
+            }
+            #welcome_Msg{
+                width: 100%;
+                font-size: 15px;
+                display: flex;
+                justify-content: center;
+            }
+            #form-Container{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                overflow-x: hidden;
+            }
+          
+            #myForm{
+                width: 80%;
+                height: 500px;
+                background-color: rgb(241, 241, 241);
+                border-radius: 1rem;
+                border: none;
+                box-shadow: 12px 19px 19px -4px rgba(0,0,0,0.1);
+            }
+            #myForm #Question{
+                width: 85%;
+            }
+            #myForm .Answer{
+                width: 85%;              
+            }
+            #submit_btn-container{
+                margin-top: 30px;
+                border: none;
+                display: flex; 
+            justify-content: center;
+            margin-bottom: 25px;
+            }
+            #score_Container{
+          display: none;
+            }         
+            .BG_Green{
+                width: 85%;
+                display: flex;
+                position: relative;
+                margin: auto;
+                margin-top: 20px;
+                box-shadow: 3px 3px rgb(206, 206, 206);
+                color: white;
+                background-color: rgba(10, 207, 36, 0.993);
+                padding: 9px;
+                border-radius: 5px;
+                border: none;
+                font-family: 'Poppins';
+                font-weight: 400;
+                cursor: pointer;
+            }
+          #myForm #BG_Red{
+      
+    background-color:  rgb(235, 19, 19);;
+    color: white;
+                width: 85%;
+                display: flex;
+                position: relative;
+                margin: auto;
+                margin-top: 20px;
+                box-shadow: 3px 3px rgb(206, 206, 206);
+                padding: 9px;
+                border-radius: 5px;
+       
+                font-family: 'Poppins';
+                font-weight: 400;
+                cursor: pointer;
+            }
+            .Dull_Blue{
+                background-color: rgb(24, 110, 209);
+                width: 85%;
+                display: flex;
+                position: relative;
+                margin: auto;
+                margin-top: 20px;
+                box-shadow: 3px 3px rgb(206, 206, 206);
+                color: white;
+                padding: 9px;
+                border-radius: 5px;
+                border: none;
+                font-family: 'Poppins';
+                font-weight: 400;
+                cursor: pointer;
+            }
+            
+            }
+            @media (max-width: 500px) {
+                #welcome_Msg-only{
+                    display: flex;
+                    width: 100%;
+                    font-size: 20px;
+                    justify-content: center;
+                    color:  rgb(255, 174, 0);
+                }
+                #welcome_Msg-only span{
+                    display: flex;
+                    color:  rgb(102, 147, 184);
+                    justify-content: center;
+                }
+                #FinalScoreOnly{
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 20px;
+                 }
+
+            }
+            @media (max-width: 399px) {
+                #welcome_Msg-only{
+                    margin-top: 100px;
+                    display: flex;
+                    width: 100%;
+                    font-size: 25px;
+                    justify-content: center;
+                    color:  rgb(255, 174, 0);
+                }
+                #welcome_Msg-only span{
+                    display: flex;
+                    color:  rgb(102, 147, 184);
+                    justify-content: center;
+                }
+                #form-Container{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                overflow-x: hidden;
+            }
+            #myForm{
+                width: 100%;
+                border-radius: none;
+                height: 100%;
+
+                }
+            }            
+          
+    
+        
