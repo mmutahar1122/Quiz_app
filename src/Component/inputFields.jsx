@@ -6,8 +6,6 @@ const InputFields = () => {
   const [isCorrect,setIsCorrect]=useState();
   const [isWrong,setIsWrong]=useState();
   const [start, setStart] = useState();
-  const [DAta,SetDAta]=useState(Data);
-  const [filterData,setFilterData]=useState();
   const [currentIndex,setCurrentIndex]=useState(0)
   const [score,setScore]=useState(0);
   const [selectedOption,setSelectedOption]=useState()
@@ -16,19 +14,14 @@ const InputFields = () => {
   const [isDisable,setIsDisable]=useState(true)
   const [ApiData,setApiData]=useState()
   const [randomNum,setRandumNum]=useState();
-
+  const [questionNo,setQuestionNo]=useState(0);
   const GEnerateRAndumNum=()=>{
     const Random=Math.floor(Math.random()*4 + 1);
     setRandumNum(Random);
-
   }
 
-// console.log('randomNum',randomNum);
-// console.log('selectedOption.value',selectedOption?.value);
-// console.log('isWrong',isWrong);
-console.log('isCorrect',isCorrect);
 const correctAnswer=ApiData && ApiData[0]?.correct_answer;
-console.log("correctAnswer",correctAnswer);
+// console.log("correctAnswer",correctAnswer);
  useEffect(() => {
   const fetchData = async () => {
     try {
@@ -46,7 +39,6 @@ console.log("correctAnswer",correctAnswer);
     e.preventDefault();
     setSelectedOption('');
     if(ApiData &&  ApiData[0]?.correct_answer !== selectedOption.value){
-      // console.log('correct_answer',ApiData &&  ApiData[0]?.correct_answer);
       setIsWrong(selectedOption);
     }if(ApiData &&  ApiData[0]?.correct_answer === selectedOption.value){
       setIsCorrect(ApiData && ApiData[0]?.correct_answer);
@@ -55,33 +47,22 @@ console.log("correctAnswer",correctAnswer);
     setChangeButton(true);
     setIsDisable(false)
     setIsCorrect({correctAnswer,randomNum});
-
-    // console.log('id',selectedOption?.id)
-    // console.log('selectedOption',selectedOption);
-    // console.log('correct_answer',ApiData && ApiData[0]?.correct_answer);
-    // console.log('iscorrect',isCorrect);
-    console.log('Random-submit',randomNum);
-
   }
   const startQuiz = () => {
     setStart(!start);
     const CurrentDAta=Data[currentIndex];
-    // setFilterData(CurrentDAta);/
-    // setRandumNum(Random);
     GEnerateRAndumNum();
-    console.log('Random-start',randomNum);
+    setQuestionNo(questionNo+1);
 
   };
   const SelecteOption = (value,id) => {
-    console.log('Random-change',randomNum);
   if(isDisable){
     setSelectedOption({value,id});
 
   };};
   const GotoNext=()=>{
-  if(currentIndex >= 0 && currentIndex < 20){
+  if(currentIndex >= 0 && currentIndex < 10){
     const CurrentDAta=Data[currentIndex];
-    // setFilterData(CurrentDAta);
     setCurrentIndex(currentIndex + 1);
     setIsWrong('');
     setIsCorrect('');
@@ -93,8 +74,7 @@ console.log("correctAnswer",correctAnswer);
   }
   setChangeButton(false)
   setIsDisable(true)
-    console.log('Random-next',randomNum);
-
+  setQuestionNo(questionNo+1);
 
   }
   return (
@@ -122,7 +102,7 @@ console.log("correctAnswer",correctAnswer);
             <h1>Quiz App</h1>
             <div id="Question">
               {" "}
-              <div>Q:{currentIndex&&currentIndex})</div>
+              <div>Q:{questionNo})</div>
                {ApiData && ApiData[0]?.question}
             </div>
              <div 
@@ -179,14 +159,6 @@ console.log("correctAnswer",correctAnswer);
         <div id={`${start ? "score_Container" : "score_Container-None"}`}>
           <div id="score_Container_child">
             <div id="score">Score : {score}</div>
-            {/* <div>
-              <button id="Next_Level_button" 
-              onClick={(e)=>GotoNext(e)}
-              disabled={!isCorrect}
-              >
-                Next
-              </button>
-            </div> */}
           </div>
         </div>
         <div
