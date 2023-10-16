@@ -13,50 +13,90 @@ const InputFields = () => {
   const [selectedOption,setSelectedOption]=useState()
   const [onlyscore,setOnlyScore]=useState();
   const [changeButton,setChangeButton]=useState(false);
-const [isDisable,setIsDisable]=useState(true)
-console.log(isDisable)
+  const [isDisable,setIsDisable]=useState(true)
+  const [ApiData,setApiData]=useState()
+  const [randomNum,setRandumNum]=useState();
+
+  const GEnerateRAndumNum=()=>{
+    const Random=Math.floor(Math.random()*4 + 1);
+    setRandumNum(Random);
+
+  }
+
+// console.log('randomNum',randomNum);
+// console.log('selectedOption.value',selectedOption?.value);
+// console.log('isWrong',isWrong);
+console.log('isCorrect',isCorrect);
+const correctAnswer=ApiData && ApiData[0]?.correct_answer;
+console.log("correctAnswer",correctAnswer);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const url =`https://opentdb.com/api.php?amount=1&category=9&difficulty=medium&type=multiple`
+      const response = await fetch(url);
+      const data = await response.json();
+      setApiData(data.results);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  fetchData();
+}, [currentIndex]);
   const submitAns=(e)=>{
     e.preventDefault();
     setSelectedOption('');
-
-    setIsCorrect(DAta[currentIndex - 1].answer);
-    if(DAta[currentIndex - 1].answer !== selectedOption){
+    if(ApiData &&  ApiData[0]?.correct_answer !== selectedOption.value){
+      // console.log('correct_answer',ApiData &&  ApiData[0]?.correct_answer);
       setIsWrong(selectedOption);
-    }if(DAta[currentIndex - 1].answer === selectedOption){
+    }if(ApiData &&  ApiData[0]?.correct_answer === selectedOption.value){
+      setIsCorrect(ApiData && ApiData[0]?.correct_answer);
       setScore(score + 5);
     }
     setChangeButton(true);
     setIsDisable(false)
+    setIsCorrect({correctAnswer,randomNum});
+
+    // console.log('id',selectedOption?.id)
+    // console.log('selectedOption',selectedOption);
+    // console.log('correct_answer',ApiData && ApiData[0]?.correct_answer);
+    // console.log('iscorrect',isCorrect);
+    console.log('Random-submit',randomNum);
+
   }
   const startQuiz = () => {
-
     setStart(!start);
-    setCurrentIndex(currentIndex + 1);
     const CurrentDAta=Data[currentIndex];
-    setFilterData(CurrentDAta);
-  };
-  const SelectedOption = (id) => {
-  if(isDisable){
-    setSelectedOption(id);
-  };};
+    // setFilterData(CurrentDAta);/
+    // setRandumNum(Random);
+    GEnerateRAndumNum();
+    console.log('Random-start',randomNum);
 
+  };
+  const SelecteOption = (value,id) => {
+    console.log('Random-change',randomNum);
+  if(isDisable){
+    setSelectedOption({value,id});
+
+  };};
   const GotoNext=()=>{
-  if(currentIndex >= 0 && currentIndex < DAta.length){
+  if(currentIndex >= 0 && currentIndex < 20){
     const CurrentDAta=Data[currentIndex];
-    setFilterData(CurrentDAta);
+    // setFilterData(CurrentDAta);
     setCurrentIndex(currentIndex + 1);
     setIsWrong('');
     setIsCorrect('');
+    GEnerateRAndumNum();
   }
-  if(currentIndex === DAta.length){
+  if(currentIndex === 10){
     setCurrentIndex(currentIndex + 1) ;
     setOnlyScore(currentIndex + 1)
-
   }
   setChangeButton(false)
   setIsDisable(true)
-  }
+    console.log('Random-next',randomNum);
 
+
+  }
   return (
     <>
       <header id="header">
@@ -74,7 +114,7 @@ console.log(isDisable)
         <div id={`${start ? "welcome_Msg" : "welcome_Msg-only"}`}>
           <h1>
             Welcome To
-            <br /> <span> Quiz App </span>
+            <br/><span>Quiz App</span>
           </h1>
         </div>
         <div id={`${start ? "form-Container" : "form-Container-None"}`}>
@@ -82,31 +122,34 @@ console.log(isDisable)
             <h1>Quiz App</h1>
             <div id="Question">
               {" "}
-              <div>Q:{filterData?.id})</div> {filterData?.question}
+              <div>Q:{currentIndex&&currentIndex})</div>
+               {ApiData && ApiData[0]?.question}
             </div>
-           
              <div 
-             className={`${isCorrect === 1 ? 'BG_Green' : selectedOption === 1 ? 'Dull_Blue': 'Answer'}`}  
-             id={`${isWrong === 1 ? 'BG_Red' : 'Answer'}`} 
-              onClick={() => SelectedOption(1)}
-              >
-              <div>a)</div>{filterData?.options[0]}
+             className={`${isCorrect?.randomNum===1 ? 'BG_Green' : selectedOption?.id === 1
+              ? 'Dull_Blue':'Answer'}`}  
+             id={`${isWrong?.id === 1 ? 'BG_Red' : 'Answer'}`} 
+              onClick={() => SelecteOption(randomNum === 1 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[0],1)}>
+              <div>a)</div>{randomNum === 1 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[0]}
             </div>
             <div 
-            className={`${isCorrect === 2 ? 'BG_Green': selectedOption === 2 ? 'Dull_Blue': 'Answer'}`} 
-            id={`${isWrong === 2 ? 'BG_Red' : 'Answer'}`} onClick={() => SelectedOption(2)}>
-              <div>b)</div>{filterData?.options[1]}
+            className={`${isCorrect?.randomNum ===2 ? 'BG_Green': selectedOption?.id === 2 ? 'Dull_Blue': 'Answer'}`} 
+            id={`${isWrong?.id === 2 ? 'BG_Red' : 'Answer'}`}
+            onClick={() => SelecteOption(randomNum === 2 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[1],2)}>
+              <div>b)</div>{ randomNum === 2 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[1]}
             </div>
             <div 
-            className={`${isCorrect === 3 ? 'BG_Green': selectedOption === 3 ? 'Dull_Blue': 'Answer'}`} 
-            id={`${isWrong === 3 ? 'BG_Red' : 'Answer'}`} onClick={() => SelectedOption(3)}>
-              <div>c)</div>{filterData?.options[2]}
+            className={`${isCorrect?.randomNum === 3 ? 'BG_Green': selectedOption?.id === 3 ? 'Dull_Blue': 'Answer'}`} 
+            id={`${isWrong?.id === 3 ? 'BG_Red' : 'Answer'}`} 
+            onClick={() => SelecteOption(randomNum === 3 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[2],3)}>
+              <div>c)</div>{randomNum === 3 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[2]}
             </div>
             <div 
-            className={`${isCorrect ===4 ? 'BG_Green': selectedOption === 4 ? 'Dull_Blue': 'Answer'}`} 
-            id={`${isWrong ===4 ? 'BG_Red' : 'Answer'}`} onClick={() => SelectedOption(4)}>
+            className={`${isCorrect?.randomNum === 4 ? 'BG_Green': selectedOption?.id === 4 ? 'Dull_Blue': 'Answer'}`} 
+            id={`${isWrong?.id === 4 ? 'BG_Red' : 'Answer'}`} 
+            onClick={() => SelecteOption(randomNum === 4 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[0],4)}>
               {" "}
-              <div>d)</div>{filterData?.options[3]}
+              <div>d)</div>{randomNum === 4 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[0]}
             </div>
             <div
               id={`${
@@ -114,7 +157,6 @@ console.log(isDisable)
               }`}
             >
               {changeButton ? <button 
-              // id="Next_Level_button" 
               id="submit"
               className="submit_btn"
               onClick={(e)=>GotoNext(e)}
@@ -137,14 +179,14 @@ console.log(isDisable)
         <div id={`${start ? "score_Container" : "score_Container-None"}`}>
           <div id="score_Container_child">
             <div id="score">Score : {score}</div>
-            <div>
+            {/* <div>
               <button id="Next_Level_button" 
               onClick={(e)=>GotoNext(e)}
               disabled={!isCorrect}
               >
                 Next
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
         <div
@@ -154,11 +196,12 @@ console.log(isDisable)
           <button onClick={startQuiz}>Start</button>
         </div>
       </div>
-      <div id={`${currentIndex > DAta.length ? "FinalScoreOnly":"FinalScore"}`}> 
+      <div id={`${currentIndex > 10 ? "FinalScoreOnly":"FinalScore"}`}> 
       <div id='FinalScoreChildren'>
-     You Got :{score}
+     You Got :{score} Score
      </div>
       </div>
+      
     </>
   );
 };
