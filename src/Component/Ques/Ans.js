@@ -33,6 +33,8 @@ export const  Data=  [
                 "answer": 1
             }
         ]
+        // export const JSON_DATA=JSON.parse(Data)
+        // console.log(JSON_DATA,'------lkdfklsdl')
     // const currentIndex=0;
     //     const FilterData=()=>{
     //         if(currentIndex >=0 && currentIndex<Data.length){

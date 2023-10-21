@@ -1,82 +1,62 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
+import { useDispatch } from "react-redux";
+import {
+  start_Quiz,
+  Selecte_Option,
+  Submit_Ans,
+  Goto_Next,
+  API_Data,
+} from "../functionSlices/Slices";
+import { useSelector } from "react-redux";
 import { Data } from "./Ques/Ans";
-
 const InputFields = () => {
-  const [isCorrect,setIsCorrect]=useState();
-  const [isWrong,setIsWrong]=useState();
-  const [start, setStart] = useState();
-  const [currentIndex,setCurrentIndex]=useState(0)
-  const [score,setScore]=useState(0);
-  const [selectedOption,setSelectedOption]=useState()
-  const [onlyscore,setOnlyScore]=useState();
-  const [changeButton,setChangeButton]=useState(false);
-  const [isDisable,setIsDisable]=useState(true)
-  const [ApiData,setApiData]=useState()
-  const [randomNum,setRandumNum]=useState();
-  const [questionNo,setQuestionNo]=useState(0);
-  const GEnerateRAndumNum=()=>{
-    const Random=Math.floor(Math.random()*4 + 1);
-    setRandumNum(Random);
-  }
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [onlyscore, setOnlyScore] = useState();
 
-const correctAnswer=ApiData && ApiData[0]?.correct_answer;
-// console.log("correctAnswer",correctAnswer);
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const url =`https://opentdb.com/api.php?amount=1&category=9&difficulty=medium&type=multiple`
-      const response = await fetch(url);
-      const data = await response.json();
-      setApiData(data.results);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-  fetchData();
-}, [currentIndex]);
-  const submitAns=(e)=>{
-    e.preventDefault();
-    setSelectedOption('');
-    if(ApiData &&  ApiData[0]?.correct_answer !== selectedOption.value){
-      setIsWrong(selectedOption);
-    }if(ApiData &&  ApiData[0]?.correct_answer === selectedOption.value){
-      setIsCorrect(ApiData && ApiData[0]?.correct_answer);
-      setScore(score + 5);
-    }
-    setChangeButton(true);
-    setIsDisable(false)
-    setIsCorrect({correctAnswer,randomNum});
-  }
+  useEffect(() => {
+    dispatch(API_Data(Data));
+  }, []);
+  const dispatch = useDispatch();
+
+  const {
+    start,
+    changeButton,
+    isCorrect,
+    isWrong,
+    score,
+    questionNo,
+    data,
+    selectedOption,
+  } = useSelector((state) => state.functions);
+  const DisAble = useSelector((state) => state.functions.isDisable);
+
+
   const startQuiz = () => {
-    setStart(!start);
-    const CurrentDAta=Data[currentIndex];
-    GEnerateRAndumNum();
-    setQuestionNo(questionNo+1);
+    dispatch(start_Quiz(true));
 
   };
-  const SelecteOption = (value,id) => {
-  if(isDisable){
-    setSelectedOption({value,id});
+  const SelecteOption = (id) => {
+    console.log(id);
 
-  };};
-  const GotoNext=()=>{
-  if(currentIndex >= 0 && currentIndex < 10){
-    const CurrentDAta=Data[currentIndex];
-    setCurrentIndex(currentIndex + 1);
-    setIsWrong('');
-    setIsCorrect('');
-    GEnerateRAndumNum();
-  }
-  if(currentIndex === 10){
-    setCurrentIndex(currentIndex + 1) ;
-    setOnlyScore(currentIndex + 1)
-  }
-  setChangeButton(false)
-  setIsDisable(true)
-  setQuestionNo(questionNo+1);
-
-  }
+    if (DisAble) {
+      dispatch(Selecte_Option(id));
+    }
+  };
+  const submitAns = (e) => {
+    e.preventDefault();
+    dispatch(Submit_Ans(data[currentIndex]?.answer));
+  };
+  const GotoNext = () => {
+    dispatch(Goto_Next());
+    if (currentIndex >= 0 && currentIndex < data.length) {
+      setCurrentIndex(currentIndex + 1);
+    }
+    if (questionNo === data.length) {
+      setCurrentIndex(currentIndex + 1);
+      setOnlyScore(currentIndex + 1);
+    }
+  };
   return (
     <>
       <header id="header">
@@ -84,99 +64,150 @@ const correctAnswer=ApiData && ApiData[0]?.correct_answer;
         <div id="score_in_header">
           <div className="header_button">Score:{score}</div>
           <div className="header_button" id="next_level">
-            <button id="next_level" 
-             onClick={(e)=>GotoNext(e)}
-              disabled={!isCorrect}>Next Level</button>
+            <button
+              id="next_level"
+              onClick={(e) => GotoNext(e)}
+              disabled={!isCorrect}
+            >
+              Next Level
+            </button>
           </div>
         </div>
       </header>
-      <div id={`${ onlyscore ? 'AllNone' :start ? "Main" : "Main_Welcome_only"}`}>
-        <div id={`${start ? "welcome_Msg" : "welcome_Msg-only"}`}>
+      <div
+        id={`${
+          onlyscore ? "AllNone" : start === true ? "Main" : "Main_Welcome_only"
+        }`}
+      >
+        <div id={`${start === true ? "welcome_Msg" : "welcome_Msg-only"}`}>
           <h1>
             Welcome To
-            <br/><span>Quiz App</span>
+            <br />
+            <span>Quiz App</span>
           </h1>
         </div>
-        <div id={`${start ? "form-Container" : "form-Container-None"}`}>
+        <div
+          id={`${start === true ? "form-Container" : "form-Container-None"}`}
+        >
           <form id="myForm">
             <h1>Quiz App</h1>
             <div id="Question">
               {" "}
               <div>Q:{questionNo})</div>
-               {ApiData && ApiData[0]?.question}
+              {data && data[currentIndex]?.question}
             </div>
-             <div 
-             className={`${isCorrect?.randomNum===1 ? 'BG_Green' : selectedOption?.id === 1
-              ? 'Dull_Blue':'Answer'}`}  
-             id={`${isWrong?.id === 1 ? 'BG_Red' : 'Answer'}`} 
-              onClick={() => SelecteOption(randomNum === 1 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[0],1)}>
-              <div>a)</div>{randomNum === 1 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[0]}
+            <div
+              className={`${
+                isCorrect === 1
+                  ? "BG_Green"
+                  : selectedOption === 1
+                  ? "Dull_Blue"
+                  : "Answer"
+              }`}
+              id={`${isWrong === 1 ? "BG_Red" : "Answer"}`}
+              onClick={() => SelecteOption(1)}
+            >
+              <div>a)</div>
+              {data && data[currentIndex]?.options[0]}
             </div>
-            <div 
-            className={`${isCorrect?.randomNum ===2 ? 'BG_Green': selectedOption?.id === 2 ? 'Dull_Blue': 'Answer'}`} 
-            id={`${isWrong?.id === 2 ? 'BG_Red' : 'Answer'}`}
-            onClick={() => SelecteOption(randomNum === 2 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[1],2)}>
-              <div>b)</div>{ randomNum === 2 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0]?.incorrect_answers[1]}
+            <div
+              className={`${
+                isCorrect === 2
+                  ? "BG_Green"
+                  : selectedOption === 2
+                  ? "Dull_Blue"
+                  : "Answer"
+              }`}
+              id={`${isWrong === 2 ? "BG_Red" : "Answer"}`}
+              onClick={() => SelecteOption(2)}
+            >
+              <div>b)</div>
+              {data && data[currentIndex]?.options[1]}
             </div>
-            <div 
-            className={`${isCorrect?.randomNum === 3 ? 'BG_Green': selectedOption?.id === 3 ? 'Dull_Blue': 'Answer'}`} 
-            id={`${isWrong?.id === 3 ? 'BG_Red' : 'Answer'}`} 
-            onClick={() => SelecteOption(randomNum === 3 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[2],3)}>
-              <div>c)</div>{randomNum === 3 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[2]}
+            <div
+              className={`${
+                isCorrect === 3
+                  ? "BG_Green"
+                  : selectedOption === 3
+                  ? "Dull_Blue"
+                  : "Answer"
+              }`}
+              id={`${isWrong === 3 ? "BG_Red" : "Answer"}`}
+              onClick={() => SelecteOption(3)}
+            >
+              <div>c)</div>
+              {data && data[currentIndex]?.options[2]}
             </div>
-            <div 
-            className={`${isCorrect?.randomNum === 4 ? 'BG_Green': selectedOption?.id === 4 ? 'Dull_Blue': 'Answer'}`} 
-            id={`${isWrong?.id === 4 ? 'BG_Red' : 'Answer'}`} 
-            onClick={() => SelecteOption(randomNum === 4 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[0],4)}>
+            <div
+              className={`${
+                isCorrect === 4
+                  ? "BG_Green"
+                  : selectedOption === 4
+                  ? "Dull_Blue"
+                  : "Answer"
+              }`}
+              id={`${isWrong === 4 ? "BG_Red" : "Answer"}`}
+              onClick={() => SelecteOption(4)}
+            >
               {" "}
-              <div>d)</div>{randomNum === 4 ? ApiData && ApiData[0]?.correct_answer : ApiData && ApiData[0] ?.incorrect_answers[0]}
+              <div>d)</div>
+              {data && data[currentIndex]?.options[3]}
             </div>
             <div
               id={`${
-                start ? "submit_btn-container" : "submit_btn-container-only"
+                start === true
+                  ? "submit_btn-container"
+                  : "submit_btn-container-only"
               }`}
             >
-              {changeButton ? <button 
-              id="submit"
-              className="submit_btn"
-              onClick={(e)=>GotoNext(e)}
-              disabled={!isCorrect}
-              >
-                Next
-              </button>
-              :
-              !changeButton ? <button
-                id="submit"
-                className="submit_btn"
-                onClick={(e)=>{submitAns(e)}}
-                disabled={!selectedOption}>
-                Check
-              </button> : ''}
+              {changeButton ? (
+                <button
+                  id="submit"
+                  className="submit_btn"
+                  onClick={(e) => GotoNext(e)}
+                  disabled={!selectedOption}
+                >
+                  Next
+                </button>
+              ) : !changeButton ? (
+                <button
+                  id="submit"
+                  className="submit_btn"
+                  onClick={(e) => {
+                    submitAns(e);
+                  }}
+                  disabled={!selectedOption}
+                >
+                  Check
+                </button>
+              ) : (
+                ""
+              )}
             </div>
+            <div id="Time" >Time: 01:00</div>
           </form>
         </div>
-
-        <div id={`${start ? "score_Container" : "score_Container-None"}`}>
+        <div
+          id={`${start === true ? "score_Container" : "score_Container-None"}`}
+        >
           <div id="score_Container_child">
             <div id="score">Score : {score}</div>
           </div>
         </div>
         <div
-          id={`${start ? "start_Container-None" : "start_Container"}`}
+          id={`${start === true ? "start_Container-None" : "start_Container"}`}
         >
           {" "}
           <button onClick={startQuiz}>Start</button>
         </div>
       </div>
-      <div id={`${currentIndex > 10 ? "FinalScoreOnly":"FinalScore"}`}> 
-      <div id='FinalScoreChildren'>
-     You Got :{score} Score
-     </div>
+      <div
+        id={`${currentIndex === data.length ? "FinalScoreOnly" : "FinalScore"}`}
+      >
+        <div id="FinalScoreChildren">You Got :{score} Score</div>
       </div>
-      
     </>
   );
 };
 
 export default InputFields;
-
