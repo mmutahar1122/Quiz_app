@@ -31,6 +31,28 @@ export const  Data=  [
                     "Helium"
                 ],
                 "answer": 1
+            },
+            {
+                "id": 3,
+                "question": "Which gas do plants absorb from the atmosphere?",
+                "options": [
+                    "Carbon Dioxide",
+                    "Oxygen",
+                    "Nitrogen",
+                    "Helium"
+                ],
+                "answer": 1
+            },
+            {
+                "id": 1,
+                "question": "What is the capital of France?",
+                "options": [
+                    "Berlin",
+                    "Madrid",
+                    "Rome",
+                    "Paris"
+                ],
+                "answer": 4
             }
         ]
         // export const JSON_DATA=JSON.parse(Data)

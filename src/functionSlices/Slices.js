@@ -1,4 +1,4 @@
-import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState={
     isCorrect:'',
@@ -20,7 +20,7 @@ const Slices = createSlice({
         reducers:{
             start_Quiz(state,action){
                 state.start=true;
-                console.log(action.payload);
+                // console.log(action.payload);
             },
             Selecte_Option(state,action){
                 state.selectedOption= action.payload;

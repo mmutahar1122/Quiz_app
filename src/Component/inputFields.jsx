@@ -13,12 +13,13 @@ import { Data } from "./Ques/Ans";
 const InputFields = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [onlyscore, setOnlyScore] = useState();
+  const [time,setTime]=useState(60)
+  const [timeOver,setTimeOver]=useState();
 
   useEffect(() => {
     dispatch(API_Data(Data));
   }, []);
   const dispatch = useDispatch();
-
   const {
     start,
     changeButton,
@@ -30,25 +31,42 @@ const InputFields = () => {
     selectedOption,
   } = useSelector((state) => state.functions);
   const DisAble = useSelector((state) => state.functions.isDisable);
-
-
+  let timer='';
+  useEffect(()=>{
+    if(timeOver===false){
+      timer=setTimeout(()=>{
+        setTime(time-1);
+      },1000)
+      }
+  if(time===0){
+    clearInterval(timer);
+    setTimeOver(true)
+  } 
+ 
+},[time,timeOver])
   const startQuiz = () => {
     dispatch(start_Quiz(true));
-
+    setTimeOver(false);
   };
+  const containerStyle = timeOver ? { pointerEvents: 'none' } : {};
   const SelecteOption = (id) => {
-    console.log(id);
-
     if (DisAble) {
       dispatch(Selecte_Option(id));
     }
   };
   const submitAns = (e) => {
     e.preventDefault();
+    clearInterval(timer)
+    setTimeOver(false);
     dispatch(Submit_Ans(data[currentIndex]?.answer));
   };
   const GotoNext = () => {
     dispatch(Goto_Next());
+    setTimeOver(false)
+    setTime(60);
+
+    // console.log(time,'---')
+ 
     if (currentIndex >= 0 && currentIndex < data.length) {
       setCurrentIndex(currentIndex + 1);
     }
@@ -57,6 +75,8 @@ const InputFields = () => {
       setOnlyScore(currentIndex + 1);
     }
   };
+
+
   return (
     <>
       <header id="header">
@@ -96,6 +116,8 @@ const InputFields = () => {
               <div>Q:{questionNo})</div>
               {data && data[currentIndex]?.question}
             </div>
+            <div 
+            style={containerStyle}>
             <div
               className={`${
                 isCorrect === 1
@@ -153,6 +175,9 @@ const InputFields = () => {
               <div>d)</div>
               {data && data[currentIndex]?.options[3]}
             </div>
+            </div>
+
+
             <div
               id={`${
                 start === true
@@ -160,7 +185,17 @@ const InputFields = () => {
                   : "submit_btn-container-only"
               }`}
             >
-              {changeButton ? (
+              { timeOver ?  (
+                <button
+                  id="submit"
+                  className="submit_btn"
+                  onClick={(e) => GotoNext(e)}
+                  disabled={selectedOption}
+                >
+                  Next
+                </button>
+              ) : 
+              changeButton ? (
                 <button
                   id="submit"
                   className="submit_btn"
@@ -182,9 +217,9 @@ const InputFields = () => {
                 </button>
               ) : (
                 ""
-              )}
-            </div>
-            <div id="Time" >Time: 01:00</div>
+                )}
+                </div>
+            <div id="Time" >Time:{time}</div>
           </form>
         </div>
         <div
