@@ -1,14 +1,16 @@
-import Api from "./Api";
+// import Api from "./Api";
 // import Quiz_App_Api from "./Quiz app Api";
 import InputFields from "./Component/inputFields";
-import Even_Odd from "./Even_Odd";
-import ApiQuiz from "./Api/fetch data rom apidata";
-import Fetch_Limit_Data from "./Fetch_Limit_Data";
+// import Even_Odd from "./Even_Odd";
+// import ApiQuiz from "./Api/fetch data rom apidata";
+// import Fetch_Limit_Data from "./Fetch_Limit_Data";
+import CodeExecutor from "./Component/textcode";
 function App() {
   return (<>
 {/* <Api/> */}
 {/* <Quiz_App_Api/> */}
 <InputFields/>
+<CodeExecutor/>
 {/* <Even_Odd/> */}
 {/* <ApiQuiz/> */}
 {/* <Fetch_Limit_Data/> */}
